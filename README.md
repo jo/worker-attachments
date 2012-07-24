@@ -1,10 +1,16 @@
-# Worker Generate Thumbnails
+# General Attachments Worker
 
-This worker generates thumbnails from images
-for all image types supported by imagemagick.
+This worker proesses attachments.
 
 
-## Configuration
+## Create a new Worker
+
+Define an object with two functions: _check_ and _process_.
+
+Look at index.js for an example.
+
+
+## Per Database Configuration
 
 Configuration is done in a worker configuration document inside the target database.
 The worker looks at all databases and only process if there exists such a configuration file.
@@ -12,7 +18,7 @@ The worker looks at all databases and only process if there exists such a config
 A Worker Configuration File might look like this:
 
     {
-      "_id": "worker-config/generate-thumbnails",
+      "_id": "worker-config/attachments",
       "_rev": "9-a653b27246b01cf9204fa9f5dee7cc64",
       "size": "135x135"
     }
@@ -31,7 +37,7 @@ with the revpos property of the status object.
 The status object of the worker looks like this:
 
     "worker_status": {
-      "generate-thumbnails": {
+      "attachments": {
         "status": "completed",
         "revpos": 160
       }
@@ -54,6 +60,7 @@ To start, this needs either the following environment variables set:
 or pass them to the commandline:
 
     HOODIE_SERVER=http://example.org npm start
+
 
 
 ## License & Copyright

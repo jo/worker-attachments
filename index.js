@@ -1,19 +1,39 @@
-// Worker Generate Thumbnails
+// Worker Attachments
 var request = require("request");
 
-var WorkerGenerateThumbnails = require("./lib/WorkerGenerateThumbnails.js");
+var WorkerAttachments = require("./lib/WorkerAttachments.js");
+  
+// example mimimal worker that checks every jpg or png image
+var processor = (function() {
+  var formats = ['jpg', 'png'];
 
+  return {
+    check: function(doc, name) {
+      return formats.indexOf(name.toLowerCase().replace(/^.*\.([^\.]+)$/, '$1')) > -1;
+    },
+    process: function(doc, name, next) {
+      this._log(doc, 'found image: ' + name);
+      // do stuff...
+      next();
+    }
+  };
+})();
+
+// curl -XPUT http://localhost:5984/mydb/worker-config%2Fattachments \
+//   -H 'Content-Type:application/json' \
+//   -d'{"_id": "worker-config/attachments"}'
 var config = {
   server: process.env.HOODIE_SERVER || "http://127.0.0.1:5984",
-  // you could also ask imagemagick for its supported formats:
-  // convert -list format
-  formats: ['jpg', 'png']
+  name: 'attachments',
+  config_id: 'worker-config/attachments',
+  processor: processor
 };
 
 var workers = [];
 request(config.server + "/_all_dbs", function(error, response, body) {
   if(error !== null) {
     console.warn("init error, _all_dbs: " + error);
+    return;
   }
 
   var dbs = JSON.parse(body);
@@ -21,7 +41,7 @@ request(config.server + "/_all_dbs", function(error, response, body) {
   // Note that you have to restart the worker
   // in order to listen to newly created databases.
   dbs.forEach(function(db) {
-    var worker = new WorkerGenerateThumbnails(config, db);
+    var worker = new WorkerAttachments(config, db);
     workers.push(worker);
   });
 });
