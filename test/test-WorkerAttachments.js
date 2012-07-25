@@ -76,15 +76,15 @@ describe("WorkerAttachments", function() {
   describe("_setStatus", function() {
     it("should set status", function() {
       var doc = {};
-      worker._setStatus(doc, 'completed');
+      worker._setStatus(doc, 'myfile', 'completed');
 
-      assert.equal('completed', doc.worker_status['test-worker'].status);
+      assert.equal('completed', doc.worker_status['test-worker'].myfile.status);
     });
     it("should set revpos from _rev", function() {
       var doc = { _rev: '3-bla' };
-      worker._setStatus(doc, 'completed');
+      worker._setStatus(doc, 'myfile', 'completed');
 
-      assert.equal(3, doc.worker_status['test-worker'].revpos);
+      assert.equal(3, doc.worker_status['test-worker'].myfile.revpos);
     });
   });
 
