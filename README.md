@@ -62,6 +62,13 @@ or pass them to the commandline:
     HOODIE_SERVER=http://example.org npm start
 
 
+## Testing
+
+Testing is done with Mocha. Run the tests with
+
+    mocha
+
+
 
 ## License & Copyright
 
