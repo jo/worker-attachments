@@ -21,17 +21,24 @@ describe("WorkerAttachments", function() {
   var worker = new WorkerAttachments(options, db);
 
   describe("_getStatus", function() {
-    it("should return falsy if no status on doc", function() {
+    it("should return false if no status on doc", function() {
       assert(!worker._getStatus({}));
     });
-    it("should return falsy if no specific status on doc", function() {
+    it("should return false if no worker status on doc", function() {
       assert(!worker._getStatus({
         worker_status: {
           foo: 'bar'
         }
       }));
     });
-    it("should return own status doc", function() {
+    it("should return false if no status for given attachment", function() {
+      assert(!worker._getStatus({
+        worker_status: {
+          'test-worker': {}
+        }
+      }, 'myfile'));
+    });
+    it("should return status for attachment", function() {
       var stat = {
         status: 'completed',
         revpos: 3
@@ -39,9 +46,11 @@ describe("WorkerAttachments", function() {
 
       assert.equal(stat, worker._getStatus({
         worker_status: {
-          'test-worker': stat
+          'test-worker': {
+            'myfile': stat
+          }
         }
-      }));
+      }, 'myfile'));
     });
   });
 
@@ -79,54 +88,69 @@ describe("WorkerAttachments", function() {
     });
   });
 
-  describe("_checkStatus", function() {
+  describe("_checkAttachment", function() {
     it("should return true if no status object present", function() {
-      assert(worker._checkStatus({}, {}));
+      assert(worker._checkAttachment({}, 'myfile'));
     });
     it("should return true if status object is completed and revpos higher than current", function() {
-      assert(worker._checkStatus({
+      assert(worker._checkAttachment({
         worker_status: {
           'test-worker': {
             status: 'completed',
             revpos: 3
           }
+        },
+        _attachments: {
+          myfile: {
+            revpos: 4
+          }
         }
-      }, {
-        revpos: 4
-      }));
+      }, 'myfile'));
     });
     it("should return false if status object is completed but revpos equals current", function() {
-      assert(!worker._checkStatus({
+      assert(!worker._checkAttachment({
         worker_status: {
           'test-worker': {
-            status: 'completed',
+            'myfile': {
+              status: 'completed',
+              revpos: 3
+            }
+          }
+        },
+        _attachments: {
+          myfile: {
             revpos: 3
           }
         }
-      }, {
-        revpos: 3
-      }));
+      }, 'myfile'));
     });
     it("should return false if status object is not completed", function() {
-      assert(!worker._checkStatus({
+      assert(!worker._checkAttachment({
         worker_status: {
           'test-worker': {
-            status: 'triggered'
+            'myfile': {
+              status: 'triggered'
+            }
           }
         }
-      }));
+      }, 'myfile'));
     });
     it("should return false if status object has lower revpos than attachments revpos", function() {
-      assert(!worker._checkStatus({
+      assert(!worker._checkAttachment({
         worker_status: {
           'test-worker': {
-           status: 'triggered',
-           revpos: 2
+            myfile: {
+              status: 'triggered',
+              revpos: 2
+            }
+          }
+        },
+        _attachments: {
+          myfile: {
+            revpos: 3
           }
         }
-      }, {
-        revpos: 3
-      }));
+      }, 'myfile'));
     });
   });
 
@@ -180,7 +204,9 @@ describe("WorkerAttachments", function() {
       var attachments = worker._selectAttachments({
         worker_status: {
           'test-worker': {
-            status: 'triggered'
+            'myfile': {
+              status: 'triggered'
+            }
           }
         },
         file: 'myfile',
