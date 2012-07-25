@@ -14,6 +14,7 @@ var processor = (function() {
     process: function(doc, name, next) {
       this._log(doc, 'found image: ' + name);
       // do stuff...
+      // call next(true) if any error happened
       next();
     }
   };
