@@ -1,0 +1,13 @@
+{
+  "name": "worker-something",
+  "version": "0.0.1",
+  "description": "Worker Something does nothing.",
+  "dependencies": {
+    "request": "*",
+    "worker-attachments": ">=0.1.0"
+  },
+  "main": "index",
+  "scripts": {
+    "start": "node index.js"
+  }
+}
