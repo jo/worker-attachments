@@ -1,6 +1,6 @@
 {
   "name": "worker-attachments",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "General attachments hoodie worker.",
   "keywords": ["couchdb", "hoodie", "attchments", "worker"],
   "author": "Johannes J. Schmidt <schmidt@netzmerk.com>",
