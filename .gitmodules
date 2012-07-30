@@ -1,3 +1,0 @@
-[submodule "node_modules/CouchDBChanges"]
-	path = node_modules/CouchDBChanges
-	url = git@github.com:null2/node-CouchDBChanges.git
