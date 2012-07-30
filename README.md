@@ -3,6 +3,12 @@
 This worker proesses attachments.
 
 
+## Installation
+
+
+    npm install worker-attachment
+
+
 ## Create a new Worker
 
 Define an object with two functions: _check_ and _process_.
