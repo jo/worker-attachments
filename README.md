@@ -26,15 +26,25 @@ A Worker Configuration File might look like this:
     {
       "_id": "worker-config/attachments",
       "_rev": "9-a653b27246b01cf9204fa9f5dee7cc64",
-      "last_update_seq": 103,
       "size": "135x135"
     }
 
 You can update the config live so that all future processings will take the new configuration.
+
+
+## Worker Status Document
+
+The worker stores a status document inside the target database.
 The worker stores its last update seq here and can resume at the point it stopped.
 
+    {
+      "_id": "worker-status/attachments",
+      "_rev": "1-1922b5623d07453a753ab6ab2c634d04",
+      "last_update_seq": 34176
+    }
 
-## Status Object
+
+## Document Status Object
 
 The worker updates a status object inside the document.
 This makes it supereasy to monitor worker status as well as

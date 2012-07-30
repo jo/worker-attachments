@@ -33,6 +33,7 @@ var config = {
   server: process.env.HOODIE_SERVER || "http://127.0.0.1:5984",
   name: 'something',
   config_id: 'worker-config/something',
+  status_id: 'worker-status/something',
   processor: processor
 };
 
