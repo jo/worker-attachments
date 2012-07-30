@@ -7,7 +7,7 @@ This worker proesses attachments.
 
 Define an object with two functions: _check_ and _process_.
 
-Look at index.js for an example.
+Look at examples/
 
 
 ## Per Database Configuration
