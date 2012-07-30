@@ -26,10 +26,16 @@ A Worker Configuration File might look like this:
     {
       "_id": "worker-config/attachments",
       "_rev": "9-a653b27246b01cf9204fa9f5dee7cc64",
-      "size": "135x135"
+      "versions": {
+        "thumbnail": {
+          "size": "135x135"
+        }
+      }
     }
 
 You can update the config live so that all future processings will take the new configuration.
+
+Note that attachment names which starts with a version name, followed by a '/' are ignored.
 
 
 ## Worker Status Document
