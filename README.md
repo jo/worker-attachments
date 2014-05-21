@@ -3,6 +3,9 @@
 This worker proesses attachments.
 
 
+# Deprication Note
+This is depricated in favor of [couchmagick](https://github.com/jo/couchmagick)!
+
 ## Installation
 
 
